@@ -36,6 +36,7 @@ void	handler(int signal, siginfo_t *info, void *newaction)
 		c = 0;
 		sigcount = 0;
 	}
+	kill(correntpid, SIGUSR1);
 }
 
 int	main(void)

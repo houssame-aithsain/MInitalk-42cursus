@@ -16,6 +16,9 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <signal.h>
+# include <stdio.h>
+
+# define TRUE 1
 
 int		ft_atoi(const char *str);
 int		ft_putchar(char c);

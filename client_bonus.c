@@ -12,15 +12,21 @@
 
 #include "minitalk_bonus.h"
 
-void	handler(int signal)
+int switcher = 1;
+
+void sighandler()
 {
-	signal = 0;
+	switcher = 0;
+}
+
+void handler()
+{
 	write(1, "\nYOUR MESSAGE HAS BEEN SUCCESSFULLY RECEIVED!\n", 46);
 }
 
-void	signalesender(int pid, char c)
+void signalesender(int pid, char c)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (i < 8)
@@ -31,18 +37,22 @@ void	signalesender(int pid, char c)
 			kill(pid, SIGUSR2);
 		i++;
 		c = c >> 1;
-		usleep(450);
+		while(switcher);
+		switcher = 1;
 	}
 }
 
-int	main(int argc, char **argv)
+int main(int argc, char **argv)
 {
-	struct sigaction	act;
-	int					i;
-	int					serverid;
+	struct sigaction act1;
+	struct sigaction act;
+	int serverid;
+	int i;
 
 	act.sa_handler = handler;
+	act1.sa_handler = sighandler;
 	sigaction(SIGUSR2, &act, 0);
+	sigaction(SIGUSR1, &act1, 0);
 	i = 0;
 	if (argc == 3)
 	{

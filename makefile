@@ -43,8 +43,6 @@ RM = rm -rf
 
 all: server client
 
-%.o : %.c
-	${CC} ${CFLAGS} -c $< -o $@
 
 client :
 	${CC} ${CFLAGS} ${SRC_C} -o ${NAME_C}
@@ -54,10 +52,10 @@ server :
 
 bonus: client_bonus server_bonus
 
-client_bonus:
+client_bonus: ${OBJS_CB}
 	${CC} ${CFLAGS} ${SRC_CB} -o ${NAME_CB}
 
-server_bonus:
+server_bonus: ${OBJS_SB}
 	${CC} ${CFLAGS} ${SRC_SB} -o ${NAME_SB}
 
 clean:	
